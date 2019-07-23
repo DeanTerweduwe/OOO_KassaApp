@@ -4,10 +4,7 @@ import model.Artikel;
 import model.ArtikelGroep;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ArtikelDBTekst {
     private HashMap artikels;
@@ -77,12 +74,17 @@ public class ArtikelDBTekst {
 
 
 
+
     public HashMap<String,Artikel> getAllArtikels(){
         return artikels;
     }
 
     public ArrayList<Artikel> getAllArtikelsArrayList(){
+
+
         ArrayList<Artikel> list = new ArrayList<Artikel>(artikels.values());
+        Comparator<Artikel> compareByOm = (Artikel a1, Artikel a2) -> a1.getOmschrijving().compareTo( a2.getOmschrijving() );
+        Collections.sort(list, compareByOm);
         return list;
     }
 
