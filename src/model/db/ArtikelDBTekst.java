@@ -47,6 +47,35 @@ public class ArtikelDBTekst {
 
     }
 
+    private String artikelsInWriteFormat(){
+        String out = "";
+        for (Artikel a:getAllArtikelsArrayList()) {
+            out= out + a.toString()+"\r\n";
+        }
+    return  out;
+    }
+
+
+
+    public void saveArtikels(){
+
+        File file =new File("database_tekst/artikel.txt");
+        file.delete();
+        File newFile=new File("database_tekst/artikel.txt");
+
+        try {
+            FileWriter f2 = new FileWriter(newFile, false);
+            f2.write(artikelsInWriteFormat());
+            f2.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
 
     public HashMap<String,Artikel> getAllArtikels(){
         return artikels;
