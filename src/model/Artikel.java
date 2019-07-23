@@ -6,14 +6,14 @@ public class Artikel {
     private String omschrijving;
     private ArtikelGroep artikelGroep;
     private double verkoopprijs;
-    private int vooraad;
+    private int voorraad;
 
-    public Artikel(String code, String omschrijving, ArtikelGroep artikelGroep, double verkoopprijs, int vooraad) {
+    public Artikel(String code, String omschrijving, ArtikelGroep artikelGroep, double verkoopprijs, int voorraad) {
         this.setCode(code);
         this.setOmschrijving(omschrijving);
         this.setArtikelGroep(artikelGroep);
         this.setVerkoopprijs(verkoopprijs);
-        this.setVooraad(vooraad);
+        this.setVoorraad(voorraad);
     }
 
     public String getCode() {
@@ -36,6 +36,7 @@ public class Artikel {
         return artikelGroep;
     }
 
+
     public void setArtikelGroep(ArtikelGroep artikelGroep) {
         this.artikelGroep = artikelGroep;
     }
@@ -48,11 +49,24 @@ public class Artikel {
         this.verkoopprijs = verkoopprijs;
     }
 
-    public int getVooraad() {
-        return vooraad;
+    public int getVoorraad() {
+        return voorraad;
     }
 
-    public void setVooraad(int vooraad) {
-        this.vooraad = vooraad;
+    public void setVoorraad(int vooraad) {
+        this.voorraad = vooraad;
     }
+
+
+    @Override
+    public String toString() {
+        return "Artikel{" +
+                "code='" + code + '\'' +
+                ", omschrijving='" + omschrijving + '\'' +
+                ", artikelGroep=" + artikelGroep +
+                ", verkoopprijs=" + verkoopprijs +
+                ", vooraad=" + voorraad +
+                '}';
+    }
+
 }
