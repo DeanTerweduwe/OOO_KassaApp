@@ -2,6 +2,7 @@ package application;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.db.ArtikelDBExcel;
 import model.db.ArtikelDBTekst;
 import model.db.DBService;
 import view.panels.KassaView;
@@ -12,6 +13,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		KassaView kassaView = new KassaView();
 		KlantView klantView = new KlantView();
+
+
 
 
 	}

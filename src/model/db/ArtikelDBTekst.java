@@ -6,7 +6,7 @@ import model.ArtikelGroep;
 import java.io.*;
 import java.util.*;
 
-public class ArtikelDBTekst {
+public class ArtikelDBTekst implements LoadSave {
     private HashMap artikels;
     String tekstFilePath= "database_tekst/artikel.txt";
     File file = new File(tekstFilePath);
@@ -19,7 +19,8 @@ public class ArtikelDBTekst {
         this.loadArtikels();
     }
 
-    private void loadArtikels() {
+
+    public void loadArtikels() {
         String line;
         try {
             BufferedReader reader = new BufferedReader(new FileReader(tekstFilePath));
@@ -28,7 +29,7 @@ public class ArtikelDBTekst {
                 if (parts.length >= 5) {
                     Artikel artikel = new Artikel(parts[0], parts[1], ArtikelGroep.valueOf(parts[2]), Double.parseDouble(parts[3]), Integer.parseInt(parts[4]));
                     artikels.put(parts[0], artikel);
-                    System.out.println("artikel met code: " + artikel.getCode() +" geladen");
+                    System.out.println("Tekst artikel met code: " + artikel.getCode() +" geladen");
                 } else {
                     System.out.println("line not right format: " + line);
                 }
@@ -44,7 +45,7 @@ public class ArtikelDBTekst {
 
     }
 
-    private String artikelsInWriteFormat(){
+    public String artikelsInWriteFormat(){
         String out = "";
         for (Artikel a:getAllArtikelsArrayList()) {
             out= out + a.toString()+"\r\n";

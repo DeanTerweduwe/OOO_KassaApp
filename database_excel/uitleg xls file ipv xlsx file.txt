@@ -1,0 +1,1 @@
+Blijkbaar is xlsx formaat niet ondersteund dus ik heb de file opgeslagen als xls
