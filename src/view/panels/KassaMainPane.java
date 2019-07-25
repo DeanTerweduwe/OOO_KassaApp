@@ -8,11 +8,11 @@ import javafx.scene.layout.Pane;
 
 public class KassaMainPane extends BorderPane {
 
-	public KassaMainPane(Pane artikelOverviewPane ){
+	public KassaMainPane(Pane artikelOverviewPane,Pane instellingenPane ){
 	    TabPane tabPane = new TabPane(); 	    
         Tab kassaTab = new Tab("Kassa");
         Tab artikelTab = new Tab("Artikelen",artikelOverviewPane);
-        Tab instellingTab = new Tab("Instellingen");
+        Tab instellingTab = new Tab("Instellingen",instellingenPane);
         Tab logTab = new Tab("Log");
         tabPane.getTabs().add(kassaTab);
         tabPane.getTabs().add(artikelTab);

@@ -1,6 +1,7 @@
 package controller;
 
 import model.Artikel;
+import model.ArtikelGroep;
 import model.Observer;
 import model.db.DBService;
 
@@ -26,6 +27,14 @@ public class Controller {
     }
     public static void registerDBObserver(Observer o) {
         DBService.getInstance().registerObserver(o);
+    }
+
+    public ArrayList<String> getAllDatatypes(){
+        ArrayList<String> groepen = new ArrayList<>();
+        for (ArtikelGroep art:ArtikelGroep.values()) {
+            groepen.add(art.toString());
+        }
+        return groepen;
     }
 
 }

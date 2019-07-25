@@ -1,5 +1,6 @@
 package application;
 
+import controller.Controller;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.db.ArtikelDBExcel;
@@ -13,6 +14,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		KassaView kassaView = new KassaView();
 		KlantView klantView = new KlantView();
+
+
 
 
 

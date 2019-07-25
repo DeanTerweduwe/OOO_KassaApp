@@ -60,8 +60,11 @@ public class DBService implements Subject {
         if (stringTypeDb.equals("excel")){
             this.loadSaveDatabase = new ArtikelDBExcel();
         }
-        else{
+        else if (stringTypeDb.equals("tekst")){
             this.loadSaveDatabase = new ArtikelDBTekst();
+        }
+        else{
+           throw new IllegalArgumentException("not the right property");
         }
     }
 
