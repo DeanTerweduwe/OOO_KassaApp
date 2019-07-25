@@ -54,7 +54,7 @@ public class DBService implements Subject {
 
     public void setLoadSaveDatabase() throws IOException {
         Properties properties = new Properties();
-        InputStream is = new FileInputStream("evaluation.properties");
+        InputStream is = new FileInputStream("kassa.properties");
         properties.load(is);
         String stringTypeDb = properties.getProperty("type");
         if (stringTypeDb.equals("excel")){

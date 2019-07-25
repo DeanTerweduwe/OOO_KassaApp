@@ -42,7 +42,7 @@ public class InstellingenPane extends GridPane implements Observer {
 
         this.add(new Label("Which dataType:"), 0, 2, 1, 1);
         dataTypeField = new ComboBox<>();
-        dataTypeField.setItems(FXCollections.observableArrayList(arrayList));
+        dataTypeField.setItems(FXCollections.observableArrayList(controller.getAllDatatypes()));
         this.add(dataTypeField, 1, 2, 1, 1);
 
         btnCancel = new Button("Cancel");
@@ -72,13 +72,13 @@ public class InstellingenPane extends GridPane implements Observer {
                     System.out.println("try to load");
                 Properties properties = new Properties();
                 InputStream is = null;
-                is = new FileInputStream("evaluation.properties");
+                is = new FileInputStream("kassa.properties");
 
                 properties.load(is);
                     System.out.println("loaded");
                     properties.setProperty("type",dataTypeField.getSelectionModel().getSelectedItem().toString());
                     String out = "type="+properties.getProperty("type");
-               properties.store(new FileOutputStream("evaluation.properties"),out);
+               properties.store(new FileOutputStream("kassa.properties"),out);
                     System.out.println("set to "+properties.getProperty("type"));
                 } catch (IOException e1) {
                     e1.printStackTrace();
