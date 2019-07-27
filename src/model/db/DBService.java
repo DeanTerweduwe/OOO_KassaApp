@@ -29,6 +29,9 @@ public class DBService implements Subject {
         catch (IOException e){
             e.printStackTrace();
         }
+        catch (DbExeption e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public static DBService getInstance(){
@@ -52,20 +55,25 @@ public class DBService implements Subject {
         return loadSaveDatabase.getAllArtikelsArrayList();
     }
 
-    public void setLoadSaveDatabase() throws IOException {
-        Properties properties = new Properties();
-        InputStream is = new FileInputStream("kassa.properties");
-        properties.load(is);
-        String stringTypeDb = properties.getProperty("type");
-        if (stringTypeDb.equals("excel")){
-            this.loadSaveDatabase = new ArtikelDBExcel();
-        }
-        else if (stringTypeDb.equals("tekst")){
-            this.loadSaveDatabase = new ArtikelDBTekst();
-        }
-        else{
-           throw new IllegalArgumentException("not the right property");
-        }
+    public void setLoadSaveDatabase() throws IOException, DbExeption {
+
+        LoadSaveFactory factory = new LoadSaveFactory();
+        this.loadSaveDatabase = factory.createLoadSave();
+
+        //ZONDER FACTORY
+//        Properties properties = new Properties();
+//        InputStream is = new FileInputStream("kassa.properties");
+//        properties.load(is);
+//        String stringTypeDb = properties.getProperty("type");
+//        if (stringTypeDb.equals("excel")){
+//            this.loadSaveDatabase = new ArtikelDBExcel();
+//        }
+//        else if (stringTypeDb.equals("tekst")){
+//            this.loadSaveDatabase = new ArtikelDBTekst();
+//        }
+//        else{
+//           throw new IllegalArgumentException("not the right property");
+//        }
     }
 
 
