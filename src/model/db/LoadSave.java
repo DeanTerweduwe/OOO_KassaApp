@@ -11,7 +11,7 @@ public interface LoadSave {
     void saveArtikels();
     HashMap<String,Artikel> getAllArtikels();
     ArrayList<Artikel> getAllArtikelsArrayList();
-
+    Artikel getArtikelWithCode(String code) throws DbExeption;
 
 
 }

@@ -89,6 +89,21 @@ public class ArtikelDBTekst implements LoadSave {
         return list;
     }
 
+    @Override
+    public Artikel getArtikelWithCode(String code) throws DbExeption {
+        Artikel artikel = (Artikel) artikels.get(code);
+        if (code.isEmpty()){
+            throw new DbExeption("Code Is Leeg");
+        }
+        if(artikels.containsKey(code)){
+            return artikel;
+
+        }
+        else{
+            throw new DbExeption("Niet Bestaande Code");
+        }
+    }
+
 
     @Override
     public String toString() {

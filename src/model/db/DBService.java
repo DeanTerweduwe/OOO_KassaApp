@@ -55,6 +55,8 @@ public class DBService implements Subject {
         return loadSaveDatabase.getAllArtikelsArrayList();
     }
 
+    public Artikel getArtikelMetCode(String code) throws DbExeption {return loadSaveDatabase.getArtikelWithCode(code);}
+
     public void setLoadSaveDatabase() throws IOException, DbExeption {
 
         LoadSaveFactory factory = new LoadSaveFactory();

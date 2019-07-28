@@ -4,22 +4,13 @@ package view.panels;
 import controller.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 import model.Artikel;
-import model.Category;
 import model.Observer;
 
 
@@ -60,7 +51,7 @@ public class ArtikelOverviewPane extends GridPane implements Observer {
 		table.getColumns().add(voorraadCol);
 
 		this.add(table, 0, 1, 5, 10);
-		ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getAllArtikelsTxtArray());
+		ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getAllArtikelsArray());
 
 		table.setItems(data);
 	}
@@ -88,7 +79,7 @@ public class ArtikelOverviewPane extends GridPane implements Observer {
 //
 	@Override
 	public void update() {
-		ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getAllArtikelsTxt().values());
+		ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getAllArtikels().values());
 		table.setItems(data);
 	}
 //
@@ -149,7 +140,7 @@ public class ArtikelOverviewPane extends GridPane implements Observer {
 //		table.getColumns().add(voorraadCol);
 //
 //		this.add(table, 0, 1, 2, 6);
-//		ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getAllArtikelsTxt().values());
+//		ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getAllArtikels().values());
 //		table.setItems(data);
 ////		btnNew = new Button("New");
 ////		this.add(btnNew, 0, 11, 1, 1);
