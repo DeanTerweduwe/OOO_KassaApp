@@ -60,7 +60,7 @@ public class DBService implements Subject {
         LoadSaveFactory factory = new LoadSaveFactory();
         this.loadSaveDatabase = factory.createLoadSave();
 
-        //ZONDER FACTORY
+        //ZONDER FACTORY REFACTORED
 //        Properties properties = new Properties();
 //        InputStream is = new FileInputStream("kassa.properties");
 //        properties.load(is);
