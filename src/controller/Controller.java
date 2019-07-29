@@ -36,7 +36,9 @@ public class Controller {
     public static  ArrayList<Artikel> getWinkelKarArtikels(){return DBService.getInstance().getWinkelkarArtikels();}
 
     public static void addArtikelToWinkelKar(Artikel artikel){DBService.getInstance().addArtikelToWinkelKar(artikel);}
-
+    public static void removeWithIndexFromWinkelkar(int i){
+        DBService.getInstance().removeWithIndexFromWinkelkar(i);
+    }
 
 
     public static ArrayList<String> getAllDatatypes(){
@@ -45,6 +47,10 @@ public class Controller {
             groepen.add(type.toString());
         }
         return groepen;
+    }
+
+    public static void notifyObservers(){
+        DBService.getInstance().notifyObservers();
     }
 
 }

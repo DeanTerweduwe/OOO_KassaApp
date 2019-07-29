@@ -17,11 +17,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.Artikel;
 import model.Observer;
+import model.db.DBService;
 import model.db.DbExeption;
+
+import java.util.Optional;
 
 public class WinkelkarPane extends GridPane implements Observer{
     private Button btnOK, btnCancel;
@@ -30,6 +35,7 @@ public class WinkelkarPane extends GridPane implements Observer{
     private TextField artikelScanField;
     private Double totaalBedrag=0.0;
     private Label totaalLable;
+    private Label infoLable;
     private SimpleStringProperty simpleStringProperty;
 //    private ObservableList<Artikel> gescandeArtikels = FXCollections.observableArrayList() ;
 
@@ -37,7 +43,7 @@ public class WinkelkarPane extends GridPane implements Observer{
 
     public WinkelkarPane(Controller controller) {
         this.controller = controller;
-        this.simpleStringProperty = new SimpleStringProperty();
+        this.simpleStringProperty = new SimpleStringProperty("Nog Geen Artikelen Gescand");
 
 
 
@@ -49,15 +55,20 @@ public class WinkelkarPane extends GridPane implements Observer{
         this.setHgap(5);
         //TEXTFIELD
 
-        this.add(new Label("Winkelkar:"), 0, 0, 1, 1);
+        this.add(new Label("Winkelkar :"), 0, 0, 1, 1);
         artikelScanField = new TextField();
         this.add(artikelScanField, 1, 0, 1, 1);
         setEnterKeyAction(new EnterKeyListener());
 
 
-        totaalLable = new Label("Totaal= ");
+        totaalLable = new Label();
         totaalLable.textProperty().bind(simpleStringProperty);
-        this.add(totaalLable,1,6,1,1);
+        this.add(totaalLable,4,6,1,1);
+
+        infoLable = new Label("Dubbelklik een artikel om het te verwijderen.");
+        this.add(infoLable,1,6,1,1);
+
+
 
 
 //        totaalBedragLable = new Label("Totaal: ");
@@ -80,6 +91,7 @@ public class WinkelkarPane extends GridPane implements Observer{
 
 
         //TABLE
+        //BLIJKBAAR ALLEEN ARTIKEL EN PRIJS DIT NOG AANPASSEN VOOR FINAL PUSH
         table = new TableView<>();
         table.setPrefWidth(REMAINING);
         TableColumn codeCol = new TableColumn<>("Code");
@@ -101,6 +113,7 @@ public class WinkelkarPane extends GridPane implements Observer{
         TableColumn voorraadCol = new TableColumn<>("voorraad");
         voorraadCol.setCellValueFactory(new PropertyValueFactory("voorraad"));
         table.getColumns().add(voorraadCol);
+        setKlickOnTableAction(new KlickOnTableListener());
 
         this.add(table, 0, 3, 5, 3);
 
@@ -135,6 +148,12 @@ public class WinkelkarPane extends GridPane implements Observer{
     public void update() {
         ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getWinkelKarArtikels());
         table.setItems(data);
+        Double totaalTemp = 0.0;
+        for (Artikel a: controller.getWinkelKarArtikels()) {
+            totaalTemp=totaalTemp+a.getVerkoopprijs();
+        }
+        totaalBedrag = round(totaalTemp,2);
+        simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString());
 
 
     }
@@ -176,6 +195,30 @@ public class WinkelkarPane extends GridPane implements Observer{
 
     }
 
+    class KlickOnTableListener implements EventHandler<MouseEvent>{
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+                if(mouseEvent.getClickCount() == 2){
+                    int n = table.getSelectionModel().getFocusedIndex();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you want to delete this Item: \n" + "\n code= " +controller.getWinkelKarArtikels().get(n).getCode()+"\n\r plaats= "+(n+1), ButtonType.CLOSE,ButtonType.APPLY);
+                    alert.setTitle("DELETE");
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.APPLY){
+                    controller.removeWithIndexFromWinkelkar(n);
+                    DBService.getInstance().notifyObservers();
+                    } else {
+                        alert.close();
+                    }
+
+
+
+                }
+            }
+        }
+
+    }
+
 
     private void ScanArtikel() {
         Artikel artikel;
@@ -184,8 +227,7 @@ public class WinkelkarPane extends GridPane implements Observer{
             artikel.verhoogAantalInKar();
             controller.addArtikelToWinkelKar(artikel);
 
-            totaalBedrag=totaalBedrag+artikel.getVerkoopprijs();
-            simpleStringProperty.setValue("Totaal= €"+round(totaalBedrag,2));
+
             this.update();
 
         } catch (DbExeption dbExeption) {
@@ -199,10 +241,10 @@ public class WinkelkarPane extends GridPane implements Observer{
         btnOK.setOnAction(saveAction);
     }
     public void setEnterKeyAction(EventHandler<KeyEvent> enterKeyAction){ artikelScanField.setOnKeyPressed(enterKeyAction);}
-
     public void setCancelAction(EventHandler<ActionEvent> cancelAction) {
         btnCancel.setOnAction(cancelAction);
     }
+    public void setKlickOnTableAction(EventHandler<MouseEvent> mouseEvent){table.setOnMouseClicked(mouseEvent);}
 
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();

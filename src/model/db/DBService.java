@@ -53,6 +53,10 @@ public class DBService implements Subject {
         notifyObservers();
     }
 
+    public void removeWithIndexFromWinkelkar(int i){
+        winkelKarDB.deleteArtikelWithIndex(i);
+    }
+
     public HashMap<String, Artikel> getAllArtikels(){
        return loadSaveDatabase.getAllArtikels();
     }

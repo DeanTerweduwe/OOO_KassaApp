@@ -31,7 +31,9 @@ public class WinkelKarDB {
 
 
 
-
+    public  void deleteArtikelWithIndex(int i){
+        artikels.remove(i);
+    }
 
 
 
