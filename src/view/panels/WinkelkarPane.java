@@ -31,7 +31,7 @@ public class WinkelkarPane extends GridPane implements Observer{
     private Double totaalBedrag=0.0;
     private Label totaalLable;
     private SimpleStringProperty simpleStringProperty;
-    private ObservableList<Artikel> gescandeArtikels = FXCollections.observableArrayList() ;
+//    private ObservableList<Artikel> gescandeArtikels = FXCollections.observableArrayList() ;
 
 
 
@@ -104,8 +104,9 @@ public class WinkelkarPane extends GridPane implements Observer{
 
         this.add(table, 0, 3, 5, 3);
 
-        table.setItems(gescandeArtikels);
-    }
+        ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getWinkelKarArtikels());
+
+        table.setItems(data);    }
 
     //		btnNew = new Button("New");
 //		this.add(btnNew, 0, 11, 1, 1);
@@ -132,7 +133,8 @@ public class WinkelkarPane extends GridPane implements Observer{
 
     @Override
     public void update() {
-        table.setItems(gescandeArtikels);
+        ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getWinkelKarArtikels());
+        table.setItems(data);
 
 
     }
@@ -179,9 +181,10 @@ public class WinkelkarPane extends GridPane implements Observer{
         Artikel artikel;
         try {
             artikel = controller.getArtikelWithCode(artikelScanField.getText());
-            gescandeArtikels.add(artikel);
+            controller.addArtikelToWinkelKar(artikel);
             totaalBedrag=totaalBedrag+artikel.getVerkoopprijs();
             simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString());
+            this.update();
 
         } catch (DbExeption dbExeption) {
 

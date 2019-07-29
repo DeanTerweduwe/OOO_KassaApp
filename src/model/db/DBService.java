@@ -18,12 +18,13 @@ public class DBService implements Subject {
 
     private volatile static DBService uniqueInstance;
     private LoadSave loadSaveDatabase;
-
+    private WinkelKarDB winkelKarDB;
     private ArrayList<Observer> observers;
 
     private DBService () {
         try {
             this.setLoadSaveDatabase();
+            this.winkelKarDB=new WinkelKarDB();
             this.observers = new ArrayList<>();
         }
         catch (IOException e){
@@ -46,6 +47,9 @@ public class DBService implements Subject {
     }
 
 
+    public ArrayList<Artikel> getWinkelkarArtikels(){return winkelKarDB.getAllArtikels();}
+
+    public void addArtikelToWinkelKar(Artikel artikel){winkelKarDB.addArtikelToKart(artikel);}
 
     public HashMap<String, Artikel> getAllArtikels(){
        return loadSaveDatabase.getAllArtikels();
