@@ -181,9 +181,11 @@ public class WinkelkarPane extends GridPane implements Observer{
         Artikel artikel;
         try {
             artikel = controller.getArtikelWithCode(artikelScanField.getText());
+            artikel.verhoogAantalInKar();
             controller.addArtikelToWinkelKar(artikel);
+
             totaalBedrag=totaalBedrag+artikel.getVerkoopprijs();
-            simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString());
+            simpleStringProperty.setValue("Totaal= €"+round(totaalBedrag,2));
             this.update();
 
         } catch (DbExeption dbExeption) {
@@ -202,7 +204,14 @@ public class WinkelkarPane extends GridPane implements Observer{
         btnCancel.setOnAction(cancelAction);
     }
 
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
 
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
 
 
 }

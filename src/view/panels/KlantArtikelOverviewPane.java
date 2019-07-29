@@ -23,13 +23,17 @@ package view.panels;
         import model.Observer;
         import model.db.DbExeption;
 
+        import java.util.HashMap;
+        import java.util.HashSet;
+        import java.util.Set;
+
 public class KlantArtikelOverviewPane extends GridPane implements Observer {
     private TableView table;
     private Controller controller;
     private Double totaalBedrag=0.0;
     private Label totaalLable;
     private SimpleStringProperty simpleStringProperty;
-    private ObservableList<Integer> aantallen=FXCollections.observableArrayList();
+    private ObservableList<Artikel> noDuplicates=FXCollections.observableArrayList();
 //    private ObservableList<Artikel> gescandeArtikels = FXCollections.observableArrayList() ;
 
 
@@ -46,7 +50,6 @@ public class KlantArtikelOverviewPane extends GridPane implements Observer {
         this.setPadding(new Insets(5, 5, 5, 5));
         this.setVgap(5);
         this.setHgap(5);
-        //TEXTFIELD
 
         this.add(new Label("Winkelkar:"), 0, 0, 1, 1);
 
@@ -68,6 +71,10 @@ public class KlantArtikelOverviewPane extends GridPane implements Observer {
         verkoopprijsCol.setCellValueFactory(new PropertyValueFactory("verkoopprijs"));
         table.getColumns().add(verkoopprijsCol);
 
+        TableColumn aantalCol = new TableColumn<>("aantalCol");
+        aantalCol.setCellValueFactory(new PropertyValueFactory("aantalInKar"));
+        table.getColumns().add(aantalCol);
+
 
 
         this.add(table, 0, 1, 5, 3);
@@ -76,42 +83,37 @@ public class KlantArtikelOverviewPane extends GridPane implements Observer {
 
         table.setItems(data);    }
 
-    //		btnNew = new Button("New");
-//		this.add(btnNew, 0, 11, 1, 1);
-//		setNewAction(new NewListener());
-//
-//		table.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent mouseEvent) {
-//				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-//					if(mouseEvent.getClickCount() == 2){
-//						int n = table.getSelectionModel().getFocusedIndex();
-//						Stage stage = new Stage();
-//						EditNewQuestionDetailPane newQuestionDetailPane = new EditNewQuestionDetailPane(controller
-//								, controller.getAllQuestions().get(n));
-//						newQuestionDetailPane.start(stage);
-//						stage.show();
-//					}
-//				}
-//			}
-//		});
-//	}
-//
+
 
 
     @Override
     public void update() {
         ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getWinkelKarArtikels());
+        Set<Artikel> set = new HashSet<>(data);
+        data.removeAll();
+        data.setAll(set);
+        table.refresh();
         table.setItems(data);
         Double totaalTemp = 0.0;
         for (Artikel a: controller.getWinkelKarArtikels()) {
             totaalTemp=totaalTemp+a.getVerkoopprijs();
         }
-        totaalBedrag = totaalTemp;
+        totaalBedrag = round(totaalTemp,2);
         simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString());
 
 
     }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
+
 
 
 

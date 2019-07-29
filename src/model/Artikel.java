@@ -7,6 +7,7 @@ public class Artikel {
     private ArtikelGroep artikelGroep;
     private double verkoopprijs;
     private int voorraad;
+    private int aantalInKar;
 
     public Artikel(String code, String omschrijving, ArtikelGroep artikelGroep, double verkoopprijs, int voorraad) {
         this.setCode(code);
@@ -14,6 +15,7 @@ public class Artikel {
         this.setArtikelGroep(artikelGroep);
         this.setVerkoopprijs(verkoopprijs);
         this.setVoorraad(voorraad);
+        aantalInKar=0;
     }
 
     public String getCode() {
@@ -55,6 +57,14 @@ public class Artikel {
 
     public void setVoorraad(int vooraad) {
         this.voorraad = vooraad;
+    }
+
+    public int getAantalInKar(){
+        return aantalInKar;
+    }
+
+    public void verhoogAantalInKar(){
+        aantalInKar++;
     }
 
 
