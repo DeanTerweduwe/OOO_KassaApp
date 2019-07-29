@@ -49,7 +49,9 @@ public class DBService implements Subject {
 
     public ArrayList<Artikel> getWinkelkarArtikels(){return winkelKarDB.getAllArtikels();}
 
-    public void addArtikelToWinkelKar(Artikel artikel){winkelKarDB.addArtikelToKart(artikel);}
+    public void addArtikelToWinkelKar(Artikel artikel){winkelKarDB.addArtikelToKart(artikel);
+        notifyObservers();
+    }
 
     public HashMap<String, Artikel> getAllArtikels(){
        return loadSaveDatabase.getAllArtikels();
