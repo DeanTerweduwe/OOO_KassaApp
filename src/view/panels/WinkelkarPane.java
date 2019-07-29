@@ -205,8 +205,9 @@ public class WinkelkarPane extends GridPane implements Observer{
                     alert.setTitle("DELETE");
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.get() == ButtonType.APPLY){
-                    controller.removeWithIndexFromWinkelkar(n);
-                    DBService.getInstance().notifyObservers();
+                        controller.getWinkelKarArtikels().get(n).verlaagAantalInKar();
+                        controller.removeWithIndexFromWinkelkar(n);
+                        DBService.getInstance().notifyObservers();
                     } else {
                         alert.close();
                     }

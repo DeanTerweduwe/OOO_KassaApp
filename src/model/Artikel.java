@@ -66,6 +66,7 @@ public class Artikel {
     public void verhoogAantalInKar(){
         aantalInKar++;
     }
+    public void verlaagAantalInKar(){aantalInKar --;}
 
 
     @Override
