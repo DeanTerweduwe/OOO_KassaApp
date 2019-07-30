@@ -29,7 +29,7 @@ import model.db.DbExeption;
 import java.util.Optional;
 
 public class WinkelkarPane extends GridPane implements Observer{
-    private Button btnOK, btnCancel;
+    private Button btnOK, btnCancel,btnStore,btnLoad;
     private TableView table;
     private Controller controller;
     private TextField artikelScanField;
@@ -85,6 +85,16 @@ public class WinkelkarPane extends GridPane implements Observer{
         btnOK.isDefaultButton();
         this.add(btnOK, 1, 2, 1, 1);
         setSaveAction(new SaveListener());
+
+        btnStore = new Button("Store");
+        btnStore.isDefaultButton();
+        this.add(btnStore, 2, 2, 1, 1);
+        setStoreAction(new StoreListener());
+        btnLoad = new Button("Load");
+        btnLoad.isDefaultButton();
+        this.add(btnLoad, 3, 2, 1, 1);
+        setLoadAction(new LoadListener());
+
 
 
 
@@ -155,7 +165,6 @@ public class WinkelkarPane extends GridPane implements Observer{
         totaalBedrag = round(totaalTemp,2);
         simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString());
 
-
     }
 
     class SaveListener implements EventHandler<ActionEvent> {
@@ -220,6 +229,38 @@ public class WinkelkarPane extends GridPane implements Observer{
 
     }
 
+    class StoreListener implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent e) {
+            try {
+                controller.storeWinkelkar();
+                update();
+                System.out.println("Winkelkar On Honld");
+            } catch (DbExeption dbExeption) {
+                System.out.println(dbExeption.getMessage());            }
+                   }
+
+
+    }
+
+
+    class LoadListener implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent e) {
+            try {
+                controller.loadWinkelkar();
+                update();
+                System.out.println("Winkelkar geladen");
+            } catch (DbExeption dbExeption) {
+                System.out.println(dbExeption.getMessage());;
+            }
+
+        }
+
+
+    }
+
+
 
     private void ScanArtikel() {
         Artikel artikel;
@@ -246,6 +287,13 @@ public class WinkelkarPane extends GridPane implements Observer{
         btnCancel.setOnAction(cancelAction);
     }
     public void setKlickOnTableAction(EventHandler<MouseEvent> mouseEvent){table.setOnMouseClicked(mouseEvent);}
+    public void setStoreAction(EventHandler<ActionEvent> storeAction) {
+        btnStore.setOnAction(storeAction);
+    }
+    public void setLoadAction(EventHandler<ActionEvent> loadAction) {btnLoad.setOnAction(loadAction);
+    }
+
+
 
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();

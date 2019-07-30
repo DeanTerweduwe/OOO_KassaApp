@@ -19,6 +19,7 @@ public class DBService implements Subject {
     private volatile static DBService uniqueInstance;
     private LoadSave loadSaveDatabase;
     private WinkelKarDB winkelKarDB;
+    private WinkelKarDB onHoldWinkelKar;
     private ArrayList<Observer> observers;
 
     private DBService () {
@@ -88,7 +89,50 @@ public class DBService implements Subject {
 //        }
     }
 
+public void storeWinkelkar() throws DbExeption {
+        onHoldWinkelKar = new WinkelKarDB();
+        Artikel tempArt;
+    for (Artikel artikel: winkelKarDB.getAllArtikels() ) {
+        if(onHoldWinkelKar.containsArtikelMetCode(artikel.getCode())){
+            System.out.println("artikel zit in winkelkar");
+            onHoldWinkelKar.addArtikelToKart(onHoldWinkelKar.getArtikelMetCode(artikel.getCode()));
+        }
+        else {tempArt = new Artikel(artikel.getCode(),artikel.getOmschrijving(),artikel.getArtikelGroep(),artikel.getVerkoopprijs(),artikel.getVoorraad());
+        tempArt.setAantalInKar(artikel.getAantalInKar());
+        onHoldWinkelKar.addArtikelToKart(tempArt);}
+    }
 
+    winkelKarDB = new WinkelKarDB();
+    for (   Artikel artikel     :    loadSaveDatabase.getAllArtikelsArrayList()) {
+        artikel.setAantalInKar(0);
+    }
+
+    for (Artikel a : onHoldWinkelKar.getAllArtikels()    ) {
+        System.out.println(a.getAantalInKar());
+    }
+        notifyObservers();
+}
+
+public void reloadStoredWinkelkar() throws DbExeption {
+        winkelKarDB = new WinkelKarDB();
+    for (Artikel a: onHoldWinkelKar.getAllArtikels()) {
+
+        if(winkelKarDB.containsArtikelMetCode(a.getCode())){
+            System.out.println("artikel zit in winkelkar");
+            winkelKarDB.addArtikelToKart(DBService.getInstance().getArtikelMetCode(a.getCode()));
+        }
+        else {
+            DBService.getInstance().getArtikelMetCode(a.getCode()).setAantalInKar(a.getAantalInKar());
+            winkelKarDB.addArtikelToKart(DBService.getInstance().getArtikelMetCode(a.getCode()));
+
+        }
+    }
+
+
+        onHoldWinkelKar=new WinkelKarDB();
+        notifyObservers();
+
+}
 
     @Override
     public void registerObserver(Observer o) {

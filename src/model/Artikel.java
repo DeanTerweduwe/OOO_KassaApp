@@ -68,6 +68,9 @@ public class Artikel {
     }
     public void verlaagAantalInKar(){aantalInKar --;}
 
+    public void setAantalInKar(int aantalInKar) {
+        this.aantalInKar = aantalInKar;
+    }
 
     @Override
     public String toString() {

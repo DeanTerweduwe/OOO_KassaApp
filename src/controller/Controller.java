@@ -40,6 +40,14 @@ public class Controller {
         DBService.getInstance().removeWithIndexFromWinkelkar(i);
     }
 
+    public static void storeWinkelkar() throws DbExeption {
+        DBService.getInstance().storeWinkelkar();
+    }
+
+    public static void loadWinkelkar() throws DbExeption {
+        DBService.getInstance().reloadStoredWinkelkar();
+    }
+
 
     public static ArrayList<String> getAllDatatypes(){
         ArrayList<String> groepen = new ArrayList<>();
