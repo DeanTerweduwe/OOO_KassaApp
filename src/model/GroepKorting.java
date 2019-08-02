@@ -5,15 +5,27 @@ public class GroepKorting implements Korting {
     private double persentage;
     private ArtikelGroep artikelGroep;
 
+    public GroepKorting(double persentage,ArtikelGroep artikelGroep) {
+        setPersentage(persentage);
+        setArtikelGroep(artikelGroep);
+    }
 
 
     @Override
     public Double getPersentage() {
-        return null;
+        return persentage;
     }
 
     @Override
-    public void setPersentage() {
+    public void setPersentage(double persentage) {
 
+    }
+
+    public ArtikelGroep getArtikelGroep() {
+        return artikelGroep;
+    }
+
+    public void setArtikelGroep(ArtikelGroep artikelGroep) {
+        this.artikelGroep = artikelGroep;
     }
 }

@@ -1,9 +1,6 @@
 package model.db;
 
-import model.Artikel;
-import model.Category;
-import model.Observer;
-import model.Subject;
+import model.*;
 
 
 import java.io.FileInputStream;
@@ -21,6 +18,7 @@ public class DBService implements Subject {
     private WinkelKarDB winkelKarDB;
     private WinkelKarDB onHoldWinkelKar;
     private ArrayList<Observer> observers;
+    private ArrayList<Korting> kortingen;
 
     private DBService () {
         try {
@@ -87,6 +85,11 @@ public class DBService implements Subject {
 //        else{
 //           throw new IllegalArgumentException("not the right property");
 //        }
+    }
+
+
+    public void addKorting(Korting korting){
+    kortingen.add(korting);
     }
 
 public void storeWinkelkar() throws DbExeption {

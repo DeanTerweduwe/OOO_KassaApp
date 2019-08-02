@@ -1,9 +1,6 @@
 package controller;
 
-import model.Artikel;
-import model.ArtikelGroep;
-import model.DataType;
-import model.Observer;
+import model.*;
 import model.db.DBService;
 import model.db.DbExeption;
 
@@ -48,6 +45,17 @@ public class Controller {
         DBService.getInstance().reloadStoredWinkelkar();
     }
 
+    public static void addKorting(Korting korting)  {
+        DBService.getInstance().addKorting(korting);
+    }
+
+    public static ArrayList<String> getAllKortingTypes(){
+        ArrayList<String> kortingen = new ArrayList<>();
+        for (KortingsType type:KortingsType.values()) {
+            kortingen.add(type.toString());
+        }
+    return kortingen;
+    }
 
     public static ArrayList<String> getAllDatatypes(){
         ArrayList<String> groepen = new ArrayList<>();

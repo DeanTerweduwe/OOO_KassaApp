@@ -252,6 +252,8 @@ public class WinkelkarPane extends GridPane implements Observer{
                 update();
                 System.out.println("Winkelkar geladen");
             } catch (DbExeption dbExeption) {
+                Alert alert = new Alert(Alert.AlertType.ERROR,dbExeption.getMessage(),ButtonType.CLOSE);
+                alert.showAndWait();
                 System.out.println(dbExeption.getMessage());;
             }
 

@@ -4,16 +4,18 @@ public class DuursteKorting implements Korting {
 
    private double persentage;
 
-
+    public DuursteKorting( double persentage) {
+        setPersentage(persentage);
+    }
 
 
     @Override
     public Double getPersentage() {
-        return null;
+        return persentage;
     }
 
     @Override
-    public void setPersentage() {
-
+    public void setPersentage(double persentage) {
+    this.persentage=persentage;
     }
 }

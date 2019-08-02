@@ -21,9 +21,9 @@ import java.util.Properties;
 
 public class InstellingenPane extends GridPane implements Observer {
     private Controller controller;
-    private Button btnOK, btnCancel;
+    private Button btnOK, btnCancel,btnAdd;
     private TextField titleField, descriptionField;
-    private ComboBox dataTypeField;
+    private ComboBox dataTypeField,kortingTypeField;
 
 
 
@@ -53,6 +53,21 @@ public class InstellingenPane extends GridPane implements Observer {
         btnOK.isDefaultButton();
         this.add(btnOK, 1, 3, 1, 1);
         setSaveAction(new SelectListener());
+
+
+
+        this.add(new Label("Which Promotion do you wish to add:"), 0, 5, 1, 1);
+        kortingTypeField = new ComboBox<>();
+        kortingTypeField.setItems(FXCollections.observableArrayList(controller.getAllKortingTypes()));
+        this.add(kortingTypeField, 1, 5, 1, 1);
+
+        btnAdd = new Button("add");
+        btnAdd.isDefaultButton();
+        this.add(btnAdd, 1, 6, 1, 1);
+        setAddAction(new AddListener());
+
+
+
 
     }
 
@@ -93,6 +108,34 @@ public class InstellingenPane extends GridPane implements Observer {
 //            stage.close();
         }
     }
+
+    class AddListener implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent e) {
+            System.out.println(kortingTypeField.getSelectionModel().getSelectedItem().toString());
+
+//            Stage staage = new Stage();
+//            EvaluationTest evaluationTest = new EvaluationTest(category);
+//            new StartQuestionaire(staage, evaluationTest);
+//            final Node source = (Node) e.getSource();
+//            final Stage stage = (Stage) source.getScene().getWindow();
+//            stage.close();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     class CancelListener implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent e) {
@@ -104,6 +147,10 @@ public class InstellingenPane extends GridPane implements Observer {
 
     public void setSaveAction(EventHandler<ActionEvent> saveAction) {
         btnOK.setOnAction(saveAction);
+    }
+
+    public void setAddAction(EventHandler<ActionEvent> addAction) {
+        btnAdd.setOnAction(addAction);
     }
 
     public void setCancelAction(EventHandler<ActionEvent> cancelAction) {
