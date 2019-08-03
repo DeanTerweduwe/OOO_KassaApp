@@ -25,6 +25,7 @@ public class DBService implements Subject {
             this.setLoadSaveDatabase();
             this.winkelKarDB=new WinkelKarDB();
             this.observers = new ArrayList<>();
+            this.kortingen= new ArrayList<>();
         }
         catch (IOException e){
             e.printStackTrace();
@@ -92,7 +93,13 @@ public class DBService implements Subject {
     kortingen.add(korting);
     }
 
-public void storeWinkelkar() throws DbExeption {
+    public ArrayList<Korting> getKortingen() {
+        return kortingen;
+    }
+
+
+
+    public void storeWinkelkar() throws DbExeption {
         onHoldWinkelKar = new WinkelKarDB();
         Artikel tempArt;
     for (Artikel artikel: winkelKarDB.getAllArtikels() ) {
@@ -135,6 +142,50 @@ public void reloadStoredWinkelkar() throws DbExeption {
         onHoldWinkelKar=new WinkelKarDB();
         notifyObservers();
 
+}
+
+public double getTotaalprijsMetKortingen() {
+    double totaal = 0.0;
+    if(kortingen.size() !=0) {
+        Korting korting = kortingen.get(0);
+
+
+        if (korting instanceof GroepKorting) {
+            for (Artikel a : winkelKarDB.getAllArtikels()) {
+                if(a.getArtikelGroep() == ((GroepKorting) korting).getArtikelGroep()){
+                    totaal = totaal + (a.getVerkoopprijs()-(a.getVerkoopprijs()*(korting.getPersentage()/100)));
+                }
+                else totaal = totaal + a.getVerkoopprijs();
+            }
+
+        }
+        if (korting instanceof DrempelKorting) {
+            for (Artikel a : winkelKarDB.getAllArtikels()) {
+                totaal = totaal + a.getVerkoopprijs();
+            }
+            if(totaal>=((DrempelKorting) korting).getDrempelPrijs()){
+                totaal= totaal - (totaal*(korting.getPersentage()/100));
+            }
+        }
+        if (korting instanceof DuursteKorting) {
+            Artikel duurste=winkelKarDB.getAllArtikels().get(0);
+            for (Artikel a : winkelKarDB.getAllArtikels()) {
+                totaal = totaal + a.getVerkoopprijs();
+                if (a.getVerkoopprijs()>duurste.getVerkoopprijs()){
+                    duurste = a;
+                }
+            }
+            totaal = totaal -(duurste.getVerkoopprijs() *(korting.getPersentage()/100));
+        }
+
+        return totaal;
+    }
+    else {
+        for (Artikel a : winkelKarDB.getAllArtikels()) {
+            totaal = totaal + a.getVerkoopprijs();
+        }
+    }
+    return totaal;
 }
 
     @Override

@@ -21,6 +21,7 @@ package view.panels;
         import javafx.stage.Stage;
         import model.Artikel;
         import model.Observer;
+        import model.db.DBService;
         import model.db.DbExeption;
 
         import java.util.HashMap;
@@ -95,11 +96,12 @@ public class KlantArtikelOverviewPane extends GridPane implements Observer {
         table.refresh();
         table.setItems(data);
         Double totaalTemp = 0.0;
-        for (Artikel a: controller.getWinkelKarArtikels()) {
-            totaalTemp=totaalTemp+a.getVerkoopprijs();
-        }
-        totaalBedrag = round(totaalTemp,2);
+        totaalBedrag = controller.getTotaalMetKortingen();
         simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString());
+        if(DBService.getInstance().getKortingen().size() != 0){
+            simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString()+" (Met korting)");
+        }
+
 
 
     }

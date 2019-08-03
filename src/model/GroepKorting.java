@@ -19,6 +19,7 @@ public class GroepKorting implements Korting {
     @Override
     public void setPersentage(double persentage) {
 
+    this.persentage=persentage;
     }
 
     public ArtikelGroep getArtikelGroep() {

@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import model.KortingsType;
 import model.Observer;
 
 import javax.imageio.IIOException;
@@ -28,6 +29,8 @@ public class InstellingenPane extends GridPane implements Observer {
 
 
     public InstellingenPane(Controller controller) {
+
+
 
         this.controller = controller;
         ArrayList<String> arrayList = new ArrayList<String>();
@@ -112,7 +115,7 @@ public class InstellingenPane extends GridPane implements Observer {
     class AddListener implements EventHandler<ActionEvent> {
         @Override
         public void handle(ActionEvent e) {
-            System.out.println(kortingTypeField.getSelectionModel().getSelectedItem().toString());
+           NewKortingView newKortingView = new NewKortingView(KortingsType.valueOf(kortingTypeField.getSelectionModel().getSelectedItem().toString()));
 
 //            Stage staage = new Stage();
 //            EvaluationTest evaluationTest = new EvaluationTest(category);

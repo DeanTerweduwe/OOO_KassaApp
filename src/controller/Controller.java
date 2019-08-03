@@ -57,13 +57,29 @@ public class Controller {
     return kortingen;
     }
 
+
+    public static double getTotaalMetKortingen(){
+        return DBService.getInstance().getTotaalprijsMetKortingen();
+
+    }
+
     public static ArrayList<String> getAllDatatypes(){
-        ArrayList<String> groepen = new ArrayList<>();
+        ArrayList<String> types = new ArrayList<>();
         for (DataType type:DataType.values()) {
-            groepen.add(type.toString());
+            types.add(type.toString());
+        }
+        return types;
+    }
+
+    public static ArrayList<String> getAllArtikelGroepen(){
+        ArrayList<String> groepen = new ArrayList<>();
+        for (ArtikelGroep artikelGroep:ArtikelGroep.values()) {
+            groepen.add(artikelGroep.toString());
         }
         return groepen;
     }
+
+
 
     public static void notifyObservers(){
         DBService.getInstance().notifyObservers();

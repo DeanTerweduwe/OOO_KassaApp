@@ -158,12 +158,16 @@ public class WinkelkarPane extends GridPane implements Observer{
     public void update() {
         ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getWinkelKarArtikels());
         table.setItems(data);
-        Double totaalTemp = 0.0;
-        for (Artikel a: controller.getWinkelKarArtikels()) {
-            totaalTemp=totaalTemp+a.getVerkoopprijs();
-        }
-        totaalBedrag = round(totaalTemp,2);
+//        Double totaalTemp = 0.0;
+//        for (Artikel a: controller.getWinkelKarArtikels()) {
+//            totaalTemp=totaalTemp+a.getVerkoopprijs();
+//        }
+//        totaalBedrag = round(totaalTemp,2);
+        totaalBedrag = controller.getTotaalMetKortingen();
         simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString());
+        if(DBService.getInstance().getKortingen().size() != 0){
+            simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString()+" (Met korting)");
+        }
 
     }
 
