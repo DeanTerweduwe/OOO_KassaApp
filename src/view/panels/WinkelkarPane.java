@@ -2,6 +2,7 @@ package view.panels;
 
 
 import controller.Controller;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -29,14 +30,14 @@ import model.db.DbExeption;
 import java.util.Optional;
 
 public class WinkelkarPane extends GridPane implements Observer{
-    private Button btnOK, btnCancel,btnStore,btnLoad;
+    private Button btnOK, btnCancel,btnStore,btnLoad,btnAfsluit;
     private TableView table;
     private Controller controller;
     private TextField artikelScanField;
     private Double totaalBedrag=0.0;
     private Label totaalLable;
     private Label infoLable;
-    private SimpleStringProperty simpleStringProperty;
+    private SimpleStringProperty simpleStringProperty,afsluitString;
 //    private ObservableList<Artikel> gescandeArtikels = FXCollections.observableArrayList() ;
 
 
@@ -44,6 +45,7 @@ public class WinkelkarPane extends GridPane implements Observer{
     public WinkelkarPane(Controller controller) {
         this.controller = controller;
         this.simpleStringProperty = new SimpleStringProperty("Nog Geen Artikelen Gescand");
+        this.afsluitString = new SimpleStringProperty("");
 
 
 
@@ -63,10 +65,10 @@ public class WinkelkarPane extends GridPane implements Observer{
 
         totaalLable = new Label();
         totaalLable.textProperty().bind(simpleStringProperty);
-        this.add(totaalLable,4,6,1,1);
+        this.add(totaalLable,4,5,1,1);
 
         infoLable = new Label("Dubbelklik een artikel om het te verwijderen.");
-        this.add(infoLable,1,6,1,1);
+        this.add(infoLable,1,5,1,1);
 
 
 
@@ -94,6 +96,11 @@ public class WinkelkarPane extends GridPane implements Observer{
         btnLoad.isDefaultButton();
         this.add(btnLoad, 3, 2, 1, 1);
         setLoadAction(new LoadListener());
+
+        btnAfsluit = new Button("Afsluit");
+        btnAfsluit.isDefaultButton();
+        this.add(btnAfsluit, 4, 2, 1, 1);
+        setAfsluitAction(new AfsluitListener());
 
 
 
@@ -125,7 +132,11 @@ public class WinkelkarPane extends GridPane implements Observer{
         table.getColumns().add(voorraadCol);
         setKlickOnTableAction(new KlickOnTableListener());
 
-        this.add(table, 0, 3, 5, 3);
+        this.add(table, 0, 3, 5, 2);
+        Label label = new Label("");
+        label.textProperty().bind(afsluitString);
+        this.add(label,0,6,1,1);
+
 
         ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getWinkelKarArtikels());
 
@@ -156,6 +167,7 @@ public class WinkelkarPane extends GridPane implements Observer{
 
     @Override
     public void update() {
+//        controller.notifyObservers();
         ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getWinkelKarArtikels());
         table.setItems(data);
 //        Double totaalTemp = 0.0;
@@ -187,7 +199,8 @@ public class WinkelkarPane extends GridPane implements Observer{
         public void handle(ActionEvent e) {
             final Node source = (Node) e.getSource();
             final Stage stage = (Stage) source.getScene().getWindow();
-            stage.close();
+            Platform.exit();
+
         }
     }
 
@@ -260,6 +273,29 @@ public class WinkelkarPane extends GridPane implements Observer{
                 alert.showAndWait();
                 System.out.println(dbExeption.getMessage());;
             }
+            catch (NullPointerException nullEx){
+                Alert alert = new Alert(Alert.AlertType.ERROR,"Geen Winkelkar on hold",ButtonType.CLOSE);
+                alert.showAndWait();
+                System.out.println(nullEx.getMessage());;
+            }
+
+        }
+
+
+    }
+
+    class AfsluitListener implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent e) {
+            try {
+                controller.setAfsluitString();
+                afsluitString.setValue(controller.getAfsluitString());
+                controller.notifyObservers();
+            } catch (Exception dbExeption) {
+                Alert alert = new Alert(Alert.AlertType.ERROR,dbExeption.getMessage(),ButtonType.CLOSE);
+                alert.showAndWait();
+                System.out.println(dbExeption.getMessage());;
+            }
 
         }
 
@@ -296,6 +332,10 @@ public class WinkelkarPane extends GridPane implements Observer{
     public void setStoreAction(EventHandler<ActionEvent> storeAction) {
         btnStore.setOnAction(storeAction);
     }
+    public void setAfsluitAction(EventHandler<ActionEvent> storeAction) {
+        btnAfsluit.setOnAction(storeAction);
+    }
+
     public void setLoadAction(EventHandler<ActionEvent> loadAction) {btnLoad.setOnAction(loadAction);
     }
 

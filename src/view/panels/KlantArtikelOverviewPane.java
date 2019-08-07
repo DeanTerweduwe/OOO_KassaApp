@@ -33,7 +33,7 @@ public class KlantArtikelOverviewPane extends GridPane implements Observer {
     private Controller controller;
     private Double totaalBedrag=0.0;
     private Label totaalLable;
-    private SimpleStringProperty simpleStringProperty;
+    private SimpleStringProperty simpleStringProperty,afsluitString;
     private ObservableList<Artikel> noDuplicates=FXCollections.observableArrayList();
 //    private ObservableList<Artikel> gescandeArtikels = FXCollections.observableArrayList() ;
 
@@ -42,7 +42,7 @@ public class KlantArtikelOverviewPane extends GridPane implements Observer {
     public KlantArtikelOverviewPane(Controller controller) {
         this.controller = controller;
         this.simpleStringProperty = new SimpleStringProperty();
-
+        this.afsluitString=new SimpleStringProperty();
 
 
         this.setPrefHeight(150);
@@ -58,6 +58,11 @@ public class KlantArtikelOverviewPane extends GridPane implements Observer {
         totaalLable = new Label("Totaal= ");
         totaalLable.textProperty().bind(simpleStringProperty);
         this.add(totaalLable,1,5,1,1);
+
+
+        Label label = new Label("");
+        label.textProperty().bind(afsluitString);
+        this.add(label,0,6,1,1);
 
 
         //TABLE
@@ -82,7 +87,13 @@ public class KlantArtikelOverviewPane extends GridPane implements Observer {
 
         ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getWinkelKarArtikels());
 
-        table.setItems(data);    }
+        table.setItems(data);
+
+
+
+
+
+    }
 
 
 
@@ -102,6 +113,7 @@ public class KlantArtikelOverviewPane extends GridPane implements Observer {
             simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString()+" (Met korting)");
         }
 
+        afsluitString.setValue(controller.getAfsluitString());
 
 
     }

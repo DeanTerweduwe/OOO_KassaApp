@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Controller {
-
+ String afsluit;
 
 
 
@@ -61,6 +61,18 @@ public class Controller {
     public static double getTotaalMetKortingen(){
         return DBService.getInstance().getTotaalprijsMetKortingen();
 
+    }
+
+    public static double getTotaal(){
+       return DBService.getInstance().getTotaalprijs();
+    }
+
+    public static String getAfsluitString(){
+        return DBService.getInstance().getAfluitString();
+    }
+
+    public static void setAfsluitString(){
+        DBService.getInstance().setAfluitString();
     }
 
     public static ArrayList<String> getAllDatatypes(){

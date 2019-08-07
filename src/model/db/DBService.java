@@ -19,6 +19,7 @@ public class DBService implements Subject {
     private WinkelKarDB onHoldWinkelKar;
     private ArrayList<Observer> observers;
     private ArrayList<Korting> kortingen;
+    private String afluitString;
 
     private DBService () {
         try {
@@ -26,6 +27,7 @@ public class DBService implements Subject {
             this.winkelKarDB=new WinkelKarDB();
             this.observers = new ArrayList<>();
             this.kortingen= new ArrayList<>();
+            this.afluitString="";
         }
         catch (IOException e){
             e.printStackTrace();
@@ -97,6 +99,10 @@ public class DBService implements Subject {
         return kortingen;
     }
 
+    public void setAfluitString(){
+        afluitString = this.maakAfluitString();
+    }
+
 
 
     public void storeWinkelkar() throws DbExeption {
@@ -144,6 +150,10 @@ public void reloadStoredWinkelkar() throws DbExeption {
 
 }
 
+public double getTotaalprijs(){
+        return round(winkelKarDB.getTotaalPrijs(),2);
+}
+
 public double getTotaalprijsMetKortingen() {
     double totaal = 0.0;
     if(kortingen.size() !=0) {
@@ -185,8 +195,33 @@ public double getTotaalprijsMetKortingen() {
             totaal = totaal + a.getVerkoopprijs();
         }
     }
-    return totaal;
+    return round(totaal,2);
 }
+
+
+    public String maakAfluitString(){
+        String out ="Totaal te betalen: €";
+        out = out + this.getTotaalprijs()+"\n\r";
+        out=out + "Na korting: €"+this.getTotaalprijsMetKortingen();
+
+
+
+        return out;
+    }
+
+    public String getAfluitString(){
+        return this.afluitString;
+    }
+
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
 
     @Override
     public void registerObserver(Observer o) {

@@ -9,10 +9,6 @@ public class WinkelKarDB {
 
     private ArrayList<Artikel> artikels;
 
-
-
-
-
     public WinkelKarDB() {
         this.artikels = new ArrayList<Artikel>();
     }
@@ -42,7 +38,14 @@ public class WinkelKarDB {
     }
 
 
+    public double getTotaalPrijs(){
+        double totaal=0.0;
+        for (Artikel a : artikels) {
+            totaal = totaal + a.getVerkoopprijs();
 
+        }
+        return totaal;
+    }
 
 
 
@@ -79,6 +82,8 @@ public class WinkelKarDB {
 
         return bool;
     }
+
+
 
     @Override
     public String toString() {

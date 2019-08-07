@@ -48,9 +48,6 @@ public class InstellingenPane extends GridPane implements Observer {
         dataTypeField.setItems(FXCollections.observableArrayList(controller.getAllDatatypes()));
         this.add(dataTypeField, 1, 2, 1, 1);
 
-        btnCancel = new Button("Cancel");
-        this.add(btnCancel, 0, 3, 1, 1);
-        setCancelAction(new CancelListener());
 
         btnOK = new Button("Select");
         btnOK.isDefaultButton();
