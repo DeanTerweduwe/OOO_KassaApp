@@ -22,8 +22,7 @@ import java.util.Properties;
 
 public class InstellingenPane extends GridPane implements Observer {
     private Controller controller;
-    private Button btnOK, btnCancel,btnAdd;
-    private TextField titleField, descriptionField;
+    private Button btnOK, btnAdd;
     private ComboBox dataTypeField,kortingTypeField;
 
 
@@ -33,9 +32,7 @@ public class InstellingenPane extends GridPane implements Observer {
 
 
         this.controller = controller;
-        ArrayList<String> arrayList = new ArrayList<String>();
-        arrayList.add("tekst");
-        arrayList.add("excel");
+
         this.setPrefHeight(150);
         this.setPrefWidth(300);
 
@@ -61,7 +58,7 @@ public class InstellingenPane extends GridPane implements Observer {
         kortingTypeField.setItems(FXCollections.observableArrayList(controller.getAllKortingTypes()));
         this.add(kortingTypeField, 1, 5, 1, 1);
 
-        btnAdd = new Button("add");
+        btnAdd = new Button("Set");
         btnAdd.isDefaultButton();
         this.add(btnAdd, 1, 6, 1, 1);
         setAddAction(new AddListener());
@@ -153,8 +150,5 @@ public class InstellingenPane extends GridPane implements Observer {
         btnAdd.setOnAction(addAction);
     }
 
-    public void setCancelAction(EventHandler<ActionEvent> cancelAction) {
-        btnCancel.setOnAction(cancelAction);
-    }
 
 }

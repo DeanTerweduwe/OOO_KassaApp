@@ -3,12 +3,11 @@ package model.db;
 import model.*;
 
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 
 
 public class DBService implements Subject {
@@ -18,16 +17,19 @@ public class DBService implements Subject {
     private WinkelKarDB winkelKarDB;
     private WinkelKarDB onHoldWinkelKar;
     private ArrayList<Observer> observers;
-    private ArrayList<Korting> kortingen;
+    private Korting korting;
     private String afluitString;
+    private ArrayList<Log> log;
+    private String testLog;
 
     private DBService () {
         try {
             this.setLoadSaveDatabase();
             this.winkelKarDB=new WinkelKarDB();
             this.observers = new ArrayList<>();
-            this.kortingen= new ArrayList<>();
             this.afluitString="";
+            this.log= new ArrayList<>();
+            this.testLog="";
         }
         catch (IOException e){
             e.printStackTrace();
@@ -91,19 +93,34 @@ public class DBService implements Subject {
     }
 
 
-    public void addKorting(Korting korting){
-    kortingen.add(korting);
+    public void setKorting(Korting korting){
+    this.korting = korting;
     }
 
-    public ArrayList<Korting> getKortingen() {
-        return kortingen;
+    public Korting getKorting() {
+        return korting;
     }
 
     public void setAfluitString(){
         afluitString = this.maakAfluitString();
     }
 
+    public void anulWinkelkar(){
+        this.winkelKarDB = new WinkelKarDB();
+        notifyObservers();
+    }
 
+    public void betaalWinkelkar(){
+        for (Artikel a:winkelKarDB.getAllArtikels() ) {
+            a.setVoorraad(a.getVoorraad()-a.getAantalInKar());
+            a.setAantalInKar(0);
+        }
+        loadSaveDatabase.saveArtikels();
+        loadSaveDatabase.loadArtikels();
+        this.logBetaling();
+        notifyObservers();
+        this.anulWinkelkar();
+    }
 
     public void storeWinkelkar() throws DbExeption {
         onHoldWinkelKar = new WinkelKarDB();
@@ -156,8 +173,8 @@ public double getTotaalprijs(){
 
 public double getTotaalprijsMetKortingen() {
     double totaal = 0.0;
-    if(kortingen.size() !=0) {
-        Korting korting = kortingen.get(0);
+    if(korting != null) {
+        Korting korting = this.korting;
 
 
         if (korting instanceof GroepKorting) {
@@ -188,7 +205,7 @@ public double getTotaalprijsMetKortingen() {
             totaal = totaal -(duurste.getVerkoopprijs() *(korting.getPersentage()/100));
         }
 
-        return totaal;
+        return round(totaal,2);
     }
     else {
         for (Artikel a : winkelKarDB.getAllArtikels()) {
@@ -220,6 +237,23 @@ public double getTotaalprijsMetKortingen() {
         value = value * factor;
         long tmp = Math.round(value);
         return (double) tmp / factor;
+    }
+    private String getLogString(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        String logString = dtf.format(now)+" - Totaal:" +getTotaalprijs() +" - Korting:"+ (getTotaalprijs()-getTotaalprijsMetKortingen())+" - Te Betalen:"+getTotaalprijsMetKortingen();
+        return logString;
+    }
+
+    private void logBetaling(){
+//        testLog = testLog + "\r\n"+ getLogString();
+        Log log1 = new Log(getTotaalprijs(),(getTotaalprijs()-getTotaalprijsMetKortingen()),getTotaalprijsMetKortingen());
+        log.add(log1);
+       
+    }
+    public ArrayList<Log> getLog(){
+        return this.log;
     }
 
 

@@ -13,6 +13,7 @@ public class KassaView {
 	private Pane artikelOverviewPane = new ArtikelOverviewPane(controller);
 	private Pane instellingenPane = new InstellingenPane(controller);
 	private Pane winkelkarPane = new WinkelkarPane(controller);
+	private Pane logPane = new LogPane(controller);
 		
 	public KassaView(){			
 		stage.setTitle("KASSA VIEW");
@@ -21,7 +22,7 @@ public class KassaView {
 		stage.setY(20);
 		Group root = new Group();
 		Scene scene = new Scene(root, 750, 500);
-		BorderPane borderPane = new KassaMainPane(artikelOverviewPane,instellingenPane,winkelkarPane);
+		BorderPane borderPane = new KassaMainPane(artikelOverviewPane,instellingenPane,winkelkarPane,logPane);
 
 		borderPane.prefHeightProperty().bind(scene.heightProperty());
 		borderPane.prefWidthProperty().bind(scene.widthProperty());

@@ -2,29 +2,17 @@ package view.panels;
 
 
         import controller.Controller;
-        import javafx.beans.InvalidationListener;
         import javafx.beans.property.SimpleStringProperty;
-        import javafx.beans.property.StringProperty;
-        import javafx.beans.value.ChangeListener;
-        import javafx.beans.value.ObservableValue;
         import javafx.collections.FXCollections;
         import javafx.collections.ObservableList;
-        import javafx.event.ActionEvent;
-        import javafx.event.EventHandler;
         import javafx.geometry.Insets;
-        import javafx.scene.Node;
         import javafx.scene.control.*;
         import javafx.scene.control.cell.PropertyValueFactory;
-        import javafx.scene.input.KeyCode;
-        import javafx.scene.input.KeyEvent;
         import javafx.scene.layout.GridPane;
-        import javafx.stage.Stage;
         import model.Artikel;
         import model.Observer;
         import model.db.DBService;
-        import model.db.DbExeption;
 
-        import java.util.HashMap;
         import java.util.HashSet;
         import java.util.Set;
 
@@ -107,9 +95,9 @@ public class KlantArtikelOverviewPane extends GridPane implements Observer {
         table.refresh();
         table.setItems(data);
         Double totaalTemp = 0.0;
-        totaalBedrag = controller.getTotaalMetKortingen();
+        totaalBedrag = round( controller.getTotaalMetKortingen(),2);
         simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString());
-        if(DBService.getInstance().getKortingen().size() != 0){
+        if(DBService.getInstance().getKorting() != null){
             simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString()+" (Met korting)");
         }
 

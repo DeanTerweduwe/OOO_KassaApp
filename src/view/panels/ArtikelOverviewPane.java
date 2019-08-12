@@ -26,7 +26,7 @@ public class ArtikelOverviewPane extends GridPane implements Observer {
 		this.setVgap(5);
 		this.setHgap(5);
 
-		this.add(new Label("Questions:"), 0, 0, 1, 1);
+		this.add(new Label("Artikels:"), 0, 0, 1, 1);
 
 		table = new TableView<>();
 		table.setPrefWidth(REMAINING);

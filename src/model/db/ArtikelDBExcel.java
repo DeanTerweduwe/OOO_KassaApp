@@ -1,6 +1,7 @@
 package model.db;
 
 import jxl.read.biff.BiffException;
+import jxl.write.WriteException;
 import model.Artikel;
 import model.ArtikelGroep;
 
@@ -54,9 +55,36 @@ public class ArtikelDBExcel extends ExcelPlugin implements LoadSave{
 
     }
 
+    private ArrayList<ArrayList<String>> getArtikelsStringArray(){
+        ArrayList<ArrayList<String>> a2 = new ArrayList<>();
+        ArrayList<String> a1 = new ArrayList<>();
+        ArrayList<Artikel> list = new ArrayList<Artikel>(artikels.values());
+        for (Artikel a: list) {
+            a1.add(a.getCode());
+
+            a1.add(a.getOmschrijving());
+            a1.add(a.getArtikelGroep().toString());
+            a1.add(String.valueOf(a.getVerkoopprijs()));
+            a1.add(String.valueOf(a.getVoorraad()));
+            a2.add(a1);
+            a1 = new ArrayList<>();
+
+        }
+        return a2;
+    }
+
+
     @Override
     public void saveArtikels() {
-
+        try {
+            super.write(file,getArtikelsStringArray());
+        } catch (BiffException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (WriteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

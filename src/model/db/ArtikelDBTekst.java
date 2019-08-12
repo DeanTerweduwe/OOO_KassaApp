@@ -47,7 +47,8 @@ public class ArtikelDBTekst implements LoadSave {
 
     public String artikelsInWriteFormat(){
         String out = "";
-        for (Artikel a:getAllArtikelsArrayList()) {
+        ArrayList<Artikel> list = new ArrayList<Artikel>(artikels.values());
+        for (Artikel a:list) {
             out= out + a.toString()+"\r\n";
         }
     return  out;

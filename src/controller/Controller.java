@@ -45,8 +45,8 @@ public class Controller {
         DBService.getInstance().reloadStoredWinkelkar();
     }
 
-    public static void addKorting(Korting korting)  {
-        DBService.getInstance().addKorting(korting);
+    public static void setKorting(Korting korting)  {
+        DBService.getInstance().setKorting(korting);
     }
 
     public static ArrayList<String> getAllKortingTypes(){
@@ -55,6 +55,9 @@ public class Controller {
             kortingen.add(type.toString());
         }
     return kortingen;
+    }
+    public static ArrayList<Log> getLog(){
+        return DBService.getInstance().getLog();
     }
 
 
@@ -91,7 +94,13 @@ public class Controller {
         return groepen;
     }
 
+    public static void anulWinkelkar(){
+        DBService.getInstance().anulWinkelkar();
+    }
 
+    public static void betaalWinkelkar(){
+        DBService.getInstance().betaalWinkelkar();
+    }
 
     public static void notifyObservers(){
         DBService.getInstance().notifyObservers();

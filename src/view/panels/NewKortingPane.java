@@ -81,7 +81,7 @@ public class NewKortingPane extends GridPane {
                     System.out.println(korting.getPersentage());
                     System.out.println(((GroepKorting) korting).getArtikelGroep().toString());
 
-                    controller.addKorting(korting);
+                    controller.setKorting(korting);
                     System.out.println("added");
                 }
 
@@ -89,7 +89,7 @@ public class NewKortingPane extends GridPane {
                 if (kortingsType == KortingsType.drempelkorting) {
                     System.out.println("Drempelkorting met persentage: " + persentageField.getText() + " en Drempel prijs: " + drempelField.getText());
                     Korting korting = new DrempelKorting(Double.parseDouble(persentageField.getText()), Double.parseDouble(drempelField.getText()));
-                    controller.addKorting(korting);
+                    controller.setKorting(korting);
                     System.out.println("added");
 
                 }
@@ -97,7 +97,7 @@ public class NewKortingPane extends GridPane {
                 if (kortingsType == KortingsType.duurstekorting) {
                     System.out.println("Duurstekorting met persentage: " + persentageField.getText());
                     Korting korting = new DuursteKorting(Double.parseDouble(persentageField.getText()));
-                    controller.addKorting(korting);
+                    controller.setKorting(korting);
                     System.out.println("added");
 
 

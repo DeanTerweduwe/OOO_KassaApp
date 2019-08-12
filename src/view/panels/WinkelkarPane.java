@@ -3,11 +3,7 @@ package view.panels;
 
 import controller.Controller;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,7 +26,7 @@ import model.db.DbExeption;
 import java.util.Optional;
 
 public class WinkelkarPane extends GridPane implements Observer{
-    private Button btnOK, btnCancel,btnStore,btnLoad,btnAfsluit;
+    private Button btnOK, btnCancel,btnStore,btnLoad,btnAfsluit,btnBetaald,btnAnul;
     private TableView table;
     private Controller controller;
     private TextField artikelScanField;
@@ -79,7 +75,7 @@ public class WinkelkarPane extends GridPane implements Observer{
 
 
 
-        btnCancel = new Button("Cancel");
+        btnCancel = new Button("Close");
         this.add(btnCancel, 0, 2, 1, 1);
         setCancelAction(new CancelListener());
 
@@ -101,6 +97,16 @@ public class WinkelkarPane extends GridPane implements Observer{
         btnAfsluit.isDefaultButton();
         this.add(btnAfsluit, 4, 2, 1, 1);
         setAfsluitAction(new AfsluitListener());
+
+        btnBetaald = new Button("Betaald");
+        btnBetaald.isDefaultButton();
+        this.add(btnBetaald, 5, 2, 1, 1);
+        setBetaaldAction(new BetaaldListener());
+
+        btnAnul = new Button("Anuleer");
+        btnAnul.isDefaultButton();
+        this.add(btnAnul, 6, 2, 1, 1);
+        setAnuleerAction(new AnuleerListener());
 
 
 
@@ -175,9 +181,9 @@ public class WinkelkarPane extends GridPane implements Observer{
 //            totaalTemp=totaalTemp+a.getVerkoopprijs();
 //        }
 //        totaalBedrag = round(totaalTemp,2);
-        totaalBedrag = controller.getTotaalMetKortingen();
+        totaalBedrag = round( controller.getTotaalMetKortingen(),2);
         simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString());
-        if(DBService.getInstance().getKortingen().size() != 0){
+        if(DBService.getInstance().getKorting() != null){
             simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString()+" (Met korting)");
         }
 
@@ -303,6 +309,40 @@ public class WinkelkarPane extends GridPane implements Observer{
     }
 
 
+    class BetaaldListener implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent e) {
+            try {
+               controller.betaalWinkelkar();
+            } catch (Exception dbExeption) {
+                Alert alert = new Alert(Alert.AlertType.ERROR,dbExeption.getMessage(),ButtonType.CLOSE);
+                alert.showAndWait();
+                System.out.println(dbExeption.getMessage());;
+            }
+
+        }
+
+
+    }
+
+
+    class AnuleerListener implements EventHandler<ActionEvent> {
+        @Override
+        public void handle(ActionEvent e) {
+            try {
+               controller.anulWinkelkar();
+            } catch (Exception dbExeption) {
+                Alert alert = new Alert(Alert.AlertType.ERROR,dbExeption.getMessage(),ButtonType.CLOSE);
+                alert.showAndWait();
+                System.out.println(dbExeption.getMessage());;
+            }
+
+        }
+
+
+    }
+
+
 
     private void ScanArtikel() {
         Artikel artikel;
@@ -335,6 +375,14 @@ public class WinkelkarPane extends GridPane implements Observer{
     public void setAfsluitAction(EventHandler<ActionEvent> storeAction) {
         btnAfsluit.setOnAction(storeAction);
     }
+    public void setBetaaldAction(EventHandler<ActionEvent> storeAction) {
+        btnBetaald.setOnAction(storeAction);
+    }
+
+    public void setAnuleerAction(EventHandler<ActionEvent> storeAction) {
+        btnAnul.setOnAction(storeAction);
+    }
+
 
     public void setLoadAction(EventHandler<ActionEvent> loadAction) {btnLoad.setOnAction(loadAction);
     }
