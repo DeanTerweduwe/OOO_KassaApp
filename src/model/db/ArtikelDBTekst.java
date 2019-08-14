@@ -29,7 +29,8 @@ public class ArtikelDBTekst implements LoadSave {
                 if (parts.length >= 5) {
                     Artikel artikel = new Artikel(parts[0], parts[1], ArtikelGroep.valueOf(parts[2]), Double.parseDouble(parts[3]), Integer.parseInt(parts[4]));
                     artikels.put(parts[0], artikel);
-                    System.out.println("Tekst artikel met code: " + artikel.getCode() +" geladen");
+                    //          UNCOMMENT TO SEE LOAD OF ITEMS
+//                    System.out.println("Tekst artikel met code: " + artikel.getCode() +" geladen");
                 } else {
                     System.out.println("line not right format: " + line);
                 }

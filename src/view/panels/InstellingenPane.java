@@ -6,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.KortingsType;
@@ -92,6 +89,7 @@ public class InstellingenPane extends GridPane implements Observer {
                     String out = "type="+properties.getProperty("type");
                properties.store(new FileOutputStream("kassa.properties"),out);
                     System.out.println("set to "+properties.getProperty("type"));
+
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

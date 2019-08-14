@@ -1,6 +1,7 @@
 package model.db;
 
 import model.*;
+import model.KassaBonDecorator.KassaBon;
 
 
 import java.io.IOException;
@@ -111,6 +112,8 @@ public class DBService implements Subject {
     }
 
     public void betaalWinkelkar(){
+        KassaBon kassaBon = new KassaBon(winkelKarDB);
+        kassaBon.drukAf();
         for (Artikel a:winkelKarDB.getAllArtikels() ) {
             a.setVoorraad(a.getVoorraad()-a.getAantalInKar());
             a.setAantalInKar(0);
@@ -250,12 +253,15 @@ public double getTotaalprijsMetKortingen() {
 //        testLog = testLog + "\r\n"+ getLogString();
         Log log1 = new Log(getTotaalprijs(),(getTotaalprijs()-getTotaalprijsMetKortingen()),getTotaalprijsMetKortingen());
         log.add(log1);
-       
+
     }
     public ArrayList<Log> getLog(){
         return this.log;
     }
 
+    public WinkelKarDB getWinkelKar() {
+        return winkelKarDB;
+    }
 
     @Override
     public void registerObserver(Observer o) {

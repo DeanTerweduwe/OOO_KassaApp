@@ -44,7 +44,8 @@ public class ArtikelDBExcel extends ExcelPlugin implements LoadSave{
         for (ArrayList<String> stringArrayList :stringList ) {
             Artikel artikel=new  Artikel(stringArrayList.get(0),stringArrayList.get(1), ArtikelGroep.valueOf(stringArrayList.get(2)),Double.parseDouble(stringArrayList.get(3)),Integer.parseInt(stringArrayList.get(4)));
            artikels.put(stringArrayList.get(0),artikel);
-            System.out.println("Excel artikel met code: " + artikel.getCode() +" geladen");
+//          UNCOMMENT TO SEE LOAD OF ITEMS
+//            System.out.println("Excel artikel met code: " + artikel.getCode() +" geladen");
         }
 
         } catch (BiffException e) {
