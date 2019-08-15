@@ -50,18 +50,6 @@ public class LogPane extends GridPane implements Observer   {
             this.setHgap(5);
 
 
-//            table = new TableView<>();
-//            table.setPrefWidth(REMAINING);
-//            TableColumn logCol = new TableColumn<>("LOG");
-//            logCol.setCellValueFactory(new PropertyValueFactory("String"));
-//            table.getColumns().add(logCol);
-
-
-//            this.add(table, 0, 1, 5, 3);
-
-//        log = new Label("Totaal= ");
-//        log.textProperty().bind(simpleStringProperty);
-//        this.add(log,1,5,1,1);
 
         table = new TableView<>();
         table.setPrefWidth(REMAINING);

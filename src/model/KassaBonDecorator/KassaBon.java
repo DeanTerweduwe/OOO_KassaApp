@@ -22,7 +22,8 @@ public class KassaBon implements KasssaBonInterface{
     @Override
     public void drukAf() {
 
-        ArrayList<Artikel> data = winkelkar.getAllArtikels();
+        ArrayList<Artikel> data = new ArrayList<>();
+        data.addAll(winkelkar.getAllArtikels());
         Set<Artikel> set = new HashSet<>(data);
         data.clear();
         data.addAll(set);
@@ -31,6 +32,6 @@ public class KassaBon implements KasssaBonInterface{
         for (Artikel a:data) {
             System.out.println(a.getOmschrijving()+"\t\t\t"+a.getAantalInKar()+"\t\t\t"+a.getVerkoopprijs());
         }
-        System.out.println("********************************* \r\nBetaald(inc. Korting): €" + DBService.getInstance().getTotaalprijsMetKortingen());
+        System.out.println("********************************* \r\nBetaald(inc. Korting): €"+DBService.getInstance().getTotaalprijsMetKortingen() );
     }
 }

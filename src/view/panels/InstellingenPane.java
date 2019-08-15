@@ -94,13 +94,7 @@ public class InstellingenPane extends GridPane implements Observer {
                     e1.printStackTrace();
                 }
             }
-//                category = controller.getCategory(dataTypeField.getSelectionModel().getSelectedItem().toString());
-//            Stage staage = new Stage();
-//            EvaluationTest evaluationTest = new EvaluationTest(category);
-//            new StartQuestionaire(staage, evaluationTest);
-//            final Node source = (Node) e.getSource();
-//            final Stage stage = (Stage) source.getScene().getWindow();
-//            stage.close();
+
         }
     }
 
@@ -109,12 +103,7 @@ public class InstellingenPane extends GridPane implements Observer {
         public void handle(ActionEvent e) {
            NewKortingView newKortingView = new NewKortingView(KortingsType.valueOf(kortingTypeField.getSelectionModel().getSelectedItem().toString()));
 
-//            Stage staage = new Stage();
-//            EvaluationTest evaluationTest = new EvaluationTest(category);
-//            new StartQuestionaire(staage, evaluationTest);
-//            final Node source = (Node) e.getSource();
-//            final Stage stage = (Stage) source.getScene().getWindow();
-//            stage.close();
+
         }
     }
 

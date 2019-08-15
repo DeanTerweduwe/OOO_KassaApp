@@ -148,39 +148,14 @@ public class WinkelkarPane extends GridPane implements Observer{
 
         table.setItems(data);    }
 
-    //		btnNew = new Button("New");
-//		this.add(btnNew, 0, 11, 1, 1);
-//		setNewAction(new NewListener());
-//
-//		table.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//			@Override
-//			public void handle(MouseEvent mouseEvent) {
-//				if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-//					if(mouseEvent.getClickCount() == 2){
-//						int n = table.getSelectionModel().getFocusedIndex();
-//						Stage stage = new Stage();
-//						EditNewQuestionDetailPane newQuestionDetailPane = new EditNewQuestionDetailPane(controller
-//								, controller.getAllQuestions().get(n));
-//						newQuestionDetailPane.start(stage);
-//						stage.show();
-//					}
-//				}
-//			}
-//		});
-//	}
-//
+
 
 
     @Override
     public void update() {
-//        controller.notifyObservers();
         ObservableList<Artikel> data = FXCollections.observableArrayList(controller.getWinkelKarArtikels());
         table.setItems(data);
-//        Double totaalTemp = 0.0;
-//        for (Artikel a: controller.getWinkelKarArtikels()) {
-//            totaalTemp=totaalTemp+a.getVerkoopprijs();
-//        }
-//        totaalBedrag = round(totaalTemp,2);
+
         totaalBedrag = round( controller.getTotaalMetKortingen(),2);
         simpleStringProperty.setValue("Totaal= €"+totaalBedrag.toString());
         if(DBService.getInstance().getKorting() != null){
